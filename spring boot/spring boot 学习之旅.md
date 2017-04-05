@@ -5,14 +5,13 @@
 	2. grandle
 	3. JRE
 - 创建步骤
-	1. 打开idea->create new project,左侧选择spring Initializr,进入下一步
-	2. 填写工程名称(name)，选择类型(type)为Gradle Project->next
-	3. 勾选需要使用的功能组件，这里我们只需要一个 Web，->next
+	1. 打开idea->create new project,左侧选择spring Initializr,进入下一步![step1](\picture/step1.png)
+	2. 填写工程名称(name)，选择类型(type)为Gradle Project->next![step2](picture/step2.png)
+	3. 勾选需要使用的功能组件，这里我们只需要一个 Web，->next![step3](picture/step3.png)
 	4. 填写项目信息,->next 然后等待idea创建项目(最好有大水管的vpn)
 	5. 创建好项目之后，勾选自动更新(Use auto-import) 和使用默认的gradle wrapper
-	6. 创建好的项目目录结构如下
+	6. 创建好的项目目录结构如下![step4](picture/step4.png)
 	7. 运行DemoApplication,即可启动spring boot和它内置的tomcat.详见[错误记录](#error)
-
 
 ##spring boot 显示页面
 - [配置](#error1)
@@ -26,8 +25,36 @@
 	2. application.properties
 	`spring.view.prefix=/WEB-INF/jsp/`
 	`spring.view.suffix= .jsp`
-	3. 路由
 
+- 使用
+	1. 创建一个jsp页面
+```
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+  <head>
+    <title>Welcome</title>
+  </head>
+  <body>
+    hello ${name}
+  </body>
+</html>
+```
+	2. 创建一个controller，代码如下
+```
+@Controller
+public class HelloController {
+    @RequestMapping("/hello")
+    public ModelAndView helloWorld(@RequestParam(required = false,defaultValue = "world") String name){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("index");
+        modelAndView.addObject("name",name);
+        return modelAndView;
+    }
+}
+```
+	3. 启动spring boot,在浏览器中输入`http://localhost:8080/hello`，将会看到输出了hello world
+
+##spring boot 配置
 
 ##错误记录
 ###java.lang.NoSuchMethodError:<span id="error"></span>
